@@ -6,7 +6,7 @@
 /*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:37:43 by ecousill          #+#    #+#             */
-/*   Updated: 2024/11/02 11:03:40 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/03 02:23:16 by erikcousill      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,9 @@
 # include <sys/wait.h> // Para wait y waitpid
 # include "libft/libft.h"
 # include "libft/libftprintf.h"
+
+char	*get_path_env(char **envp);
+char	**get_command_args(char *command_full);
+char	*get_command_path(char *command, char **envp);
 
 #endif
