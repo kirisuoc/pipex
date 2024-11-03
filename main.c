@@ -6,7 +6,7 @@
 /*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 11:04:23 by erikcousill       #+#    #+#             */
-/*   Updated: 2024/11/03 02:43:35 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/03 11:06:24 by erikcousill      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	free_args(char **args);
 void	process_command(char *command_full, char **envp);
-
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -106,8 +105,8 @@ int	main(int argc, char **argv, char **envp)
 		if (pid2 == 0) // Proceso hijo para el segundo comando
 		{
 			dup2(pipe_fd[0], STDIN_FILENO); // Redirigir stdin al pipe
-			close(pipe_fd[0]); // Cerrar el extremo de lectura
 			dup2(fd_outfile, STDOUT_FILENO); // Redirigir stdout al archivo de salida
+			close(pipe_fd[0]); // Cerrar el extremo de lectura
 			close(fd_outfile); // Cerrar el fd del archivo de salida
 
 			args = get_command_args(argv[3]);
