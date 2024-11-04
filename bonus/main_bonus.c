@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
+/*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 11:04:23 by erikcousill       #+#    #+#             */
-/*   Updated: 2024/11/03 23:18:24 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/04 15:07:08 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ int	main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-// Si tenemos 2 comandos, necesitamos 2 procesos y 1 pipe
-// Si tenemos 4 comandos, necesitamos 4 procesos y 3 pipes
-// Si tenemos n comandos, necesitamos n procesos y n-1 pipes
-//			--> fd_infile + fd_outfile + (n-1) pipe_fd[2]
-//											pipe_fds[2 x (n-1)]
-
 void	run_pipeline(int argc, char **argv, char **envp)
 {
 	int		fd_infile;
@@ -44,39 +38,23 @@ void	run_pipeline(int argc, char **argv, char **envp)
 	int		i;
 	int		j;
 
-	n = argc - 3; // Los argumentos son infile, n comandos, outfile
-
+	n = argc - 3;
 	initialize_files(&fd_infile, &fd_outfile, argv, argc);
-	create_pipes(n, pipe_fds); // Creamos n-1 pipes
-
+	create_pipes(n, pipe_fds);
 	i = 0;
 	while (i < n)
 	{
 		pid = safe_fork();
-
-
 		if (pid == 0)
 		{
-			// Proceso hijo
-			if (i == 0) // Primer comando
-			{
-				// ????????? close(pipe_fds[i][0]);
+			if (i == 0)
 				dup2(fd_infile, STDIN_FILENO);
-			}
-			else // Comandos intermedios o último comando
-			{
+			else
 				dup2(pipe_fds[i - 1][0], STDIN_FILENO);
-			}
-
-			if (i == n - 1) // Último comando
-			{
+			if (i == n - 1)
 				dup2(fd_outfile, STDOUT_FILENO);
-			}
-			else // Comandos intermedios o primer comando
-			{
+			else
 				dup2(pipe_fds[i][1], STDOUT_FILENO);
-			}
-			// Cerrar todos los pipes
 			j = 0;
 			while (j < n - 1)
 			{
@@ -88,9 +66,7 @@ void	run_pipeline(int argc, char **argv, char **envp)
 			exit(EXIT_SUCCESS);
 		}
 		i++;
-
 	}
-	// Proceso padre
 	cleanup(fd_infile, fd_outfile, pipe_fds, n);
 	i = 0;
 	while (i < n)
@@ -126,7 +102,7 @@ void	create_pipes(int n, int pipe_fds[][2])
 	i = 0;
 	while (i < n - 1)
 	{
-		if(pipe(pipe_fds[i]))
+		if (pipe(pipe_fds[i]))
 		{
 			perror("Error al crear el pipe");
 			exit(EXIT_FAILURE);
@@ -147,4 +123,3 @@ pid_t	safe_fork(void)
 	}
 	return (pid);
 }
-

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
+/*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:37:43 by ecousill          #+#    #+#             */
-/*   Updated: 2024/11/03 18:26:10 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/04 15:07:51 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -30,6 +30,7 @@ char	*get_command_path(char *command, char **envp);
 void	free_args(char **args);
 void	cleanup(int fd_infile, int fd_outfile, int pipe_fd[][2], int n);
 int		open_file(char *filename, int flags, mode_t mode, char *error_message);
-void	initialize_files(int *fd_infile, int *fd_outfile, char **argv, int argc);
+void	initialize_files(int *fd_infile, int *fd_outfile,
+			char **argv, int argc);
 
 #endif
