@@ -10,14 +10,14 @@ CYAN = \033[36m
 RESET = \033[0m
 
 # Lista de archivos fuente
-SRCS = main.c \
-get_command.c utils.c \
+SRCS = main_bonus.c \
+get_command_bonus.c utils_bonus.c \
 
 # Generar lista de archivos objeto (.o) a partir de los .c
 OBJS = $(SRCS:.c=.o)
 
 # Ruta a la biblioteca libft.a
-LIBFT_DIR = libft
+LIBFT_DIR = ../libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 # Regla principal

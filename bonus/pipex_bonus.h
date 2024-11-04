@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:37:43 by ecousill          #+#    #+#             */
-/*   Updated: 2024/11/03 12:52:35 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/03 18:26:10 by erikcousill      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@
 # include <string.h>
 # include <sys/types.h> // Para pid_t
 # include <sys/wait.h> // Para wait y waitpid
-# include "libft/libft.h"
-# include "libft/libftprintf.h"
+# include "../libft/libft.h"
+# include "../libft/libftprintf.h"
 
 char	*get_path_env(char **envp);
 char	**get_command_args(char *command_full);
 char	*get_command_path(char *command, char **envp);
 
 void	free_args(char **args);
-void	cleanup(int fd_infile, int fd_outfile, int pipe_fd[2]);
+void	cleanup(int fd_infile, int fd_outfile, int pipe_fd[][2], int n);
 int		open_file(char *filename, int flags, mode_t mode, char *error_message);
-void	initialize_files(int *fd_infile, int *fd_outfile, char **argv);
+void	initialize_files(int *fd_infile, int *fd_outfile, char **argv, int argc);
 
 #endif
