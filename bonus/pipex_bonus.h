@@ -6,7 +6,7 @@
 /*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 13:37:43 by ecousill          #+#    #+#             */
-/*   Updated: 2024/11/04 15:07:51 by ecousill         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:59:33 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,10 @@ void	cleanup(int fd_infile, int fd_outfile, int pipe_fd[][2], int n);
 int		open_file(char *filename, int flags, mode_t mode, char *error_message);
 void	initialize_files(int *fd_infile, int *fd_outfile,
 			char **argv, int argc);
+
+void	setup_io(int fds[2], int i, int n, int (*pipe_fds)[2]);
+void	execute_command(char *command, char **envp);
+void	create_pipes(int n, int (*pipe_fds)[2]);
+pid_t	safe_fork(void);
 
 #endif

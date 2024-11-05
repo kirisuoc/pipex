@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
+/*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:45:45 by erikcousill       #+#    #+#             */
-/*   Updated: 2024/11/03 18:25:55 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/05 13:41:24 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	cleanup(int fd_infile, int fd_outfile, int pipe_fds[][2], int n)
 		close(pipe_fds[i][1]);
 		i++;
 	}
+	free(pipe_fds);
 }
 
 int	open_file(char *filename, int flags, mode_t mode, char *error_message)

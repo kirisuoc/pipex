@@ -11,7 +11,7 @@ RESET = \033[0m
 
 # Lista de archivos fuente
 SRCS = main_bonus.c \
-get_command_bonus.c utils_bonus.c \
+get_command_bonus.c utils_bonus.c utils2_bonus.c \
 
 # Generar lista de archivos objeto (.o) a partir de los .c
 OBJS = $(SRCS:.c=.o)
