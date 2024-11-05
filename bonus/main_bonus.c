@@ -6,14 +6,14 @@
 /*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 11:04:23 by erikcousill       #+#    #+#             */
-/*   Updated: 2024/11/04 15:07:08 by ecousill         ###   ########.fr       */
+/*   Updated: 2024/11/05 12:05:14 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
 void	execute_command(char *command, char **envp);
-void	create_pipes(int n, int pipe_fd[][2]);
+void	create_pipes(int n, int (*pipe_fds)[2]);
 pid_t	safe_fork(void);
 void	run_pipeline(int argc, char **argv, char **envp);
 
@@ -33,12 +33,18 @@ void	run_pipeline(int argc, char **argv, char **envp)
 	int		fd_infile;
 	int		fd_outfile;
 	int		n;
-	int		pipe_fds[(argc - 3) - 1][2];
+	int		(*pipe_fds)[2];
 	pid_t	pid;
 	int		i;
 	int		j;
 
 	n = argc - 3;
+	pipe_fds = malloc((n - 1) * sizeof(int[2]));
+	if (!pipe_fds)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
 	initialize_files(&fd_infile, &fd_outfile, argv, argc);
 	create_pipes(n, pipe_fds);
 	i = 0;
@@ -69,11 +75,8 @@ void	run_pipeline(int argc, char **argv, char **envp)
 	}
 	cleanup(fd_infile, fd_outfile, pipe_fds, n);
 	i = 0;
-	while (i < n)
-	{
+	while (i++ < n)
 		wait(NULL);
-		i++;
-	}
 }
 
 void	execute_command(char *command, char **envp)
@@ -95,14 +98,14 @@ void	execute_command(char *command, char **envp)
 	exit(EXIT_FAILURE);
 }
 
-void	create_pipes(int n, int pipe_fds[][2])
+void	create_pipes(int n, int (*pipe_fds)[2])
 {
 	int	i;
 
 	i = 0;
 	while (i < n - 1)
 	{
-		if (pipe(pipe_fds[i]))
+		if (pipe(pipe_fds[i]) == -1)
 		{
 			perror("Error al crear el pipe");
 			exit(EXIT_FAILURE);

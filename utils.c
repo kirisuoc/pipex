@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: erikcousillas <erikcousillas@student.42    +#+  +:+       +#+        */
+/*   By: ecousill <ecousill@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 12:45:45 by erikcousill       #+#    #+#             */
-/*   Updated: 2024/11/03 12:51:06 by erikcousill      ###   ########.fr       */
+/*   Updated: 2024/11/05 11:50:17 by ecousill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,22 @@ void	free_args(char **args)
 	}
 }
 
-void	cleanup(int fd_infile, int fd_outfile, int pipe_fd[2])
+void	cleanup(int fd_infile, int fd_outfile, int **pipe_fd, int n)
 {
+	int	i;
+
 	if (fd_infile != 1)
 		close(fd_infile);
 	if (fd_outfile != 1)
 		close(fd_outfile);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
+	i = 0;
+	while (i < n - 1)
+	{
+		close(pipe_fd[i][0]);
+		close(pipe_fd[i][1]);
+		free(pipe_fds[i]);
+	}
+	free(pipe_fds);
 }
 
 int	open_file(char *filename, int flags, mode_t mode, char *error_message)
